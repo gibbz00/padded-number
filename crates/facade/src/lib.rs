@@ -14,4 +14,5 @@
 //! `A == 0` results in empty values being allowed as valid numbers. ("")
 
 pub use padded_number_internal::{PaddedNumber, ParsePaddedNumberError};
+#[cfg(feature = "macros")]
 pub use padded_number_macros::{bound_padded_number, padded_number};

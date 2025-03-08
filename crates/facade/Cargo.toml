@@ -9,9 +9,15 @@ readme.workspace = true
 repository.workspace = true
 version.workspace = true
 
+[features]
+macros = ["dep:padded-number-macros"]
+
 [dependencies]
 padded-number-internal.workspace = true
-padded-number-macros.workspace = true
+padded-number-macros = { workspace = true, optional = true }
+
+[dev-dependencies]
+padded-number = { path = ".", features = ["macros"] }
 
 [lints]
 workspace = true
