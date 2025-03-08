@@ -14,3 +14,4 @@
 //! `A == 0` results in empty values being allowed as valid numbers. ("")
 
 pub use padded_number_internal::{PaddedNumber, ParsePaddedNumberError};
+pub use padded_number_macros::bound_padded_number;

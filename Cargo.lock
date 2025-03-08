@@ -63,6 +63,7 @@ name = "padded-number"
 version = "0.1.0"
 dependencies = [
  "padded-number-internal",
+ "padded-number-macros",
 ]
 
 [[package]]
@@ -75,6 +76,16 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror",
+]
+
+[[package]]
+name = "padded-number-macros"
+version = "0.1.0"
+dependencies = [
+ "padded-number-internal",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

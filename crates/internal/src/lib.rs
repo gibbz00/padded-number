@@ -4,6 +4,9 @@
 mod core;
 pub use core::PaddedNumber;
 
+#[doc(hidden)]
+pub mod parse;
+
 mod error;
 pub use error::ParsePaddedNumberError;
 

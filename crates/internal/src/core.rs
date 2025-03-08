@@ -8,31 +8,14 @@ pub struct PaddedNumber<const A: u8, const B: u8> {
 }
 
 impl<const A: u8, const B: u8> PaddedNumber<A, B> {
+    #[doc(hidden)]
+    pub const unsafe fn new_unchecked(leading_zeros: u8, number: u64) -> Self {
+        Self { leading_zeros, number }
+    }
+
     /// Create a new [`PaddedNumber`] in a const context.
     pub const fn try_new(str: &str) -> Result<Self, ParsePaddedNumberError> {
-        {
-            let str_len = str.len();
-
-            if str_len == 0 && A == 0 {
-                return Ok(Self { leading_zeros: 0, number: 0 });
-            }
-
-            if str_len < A as usize {
-                return Err(ParsePaddedNumberError::TooShort(A, str_len as u8));
-            }
-
-            if str_len > B as usize {
-                return Err(ParsePaddedNumberError::TooLong(B, str_len as u8));
-            }
-        }
-
-        let leading_zeros =
-            konst::iter::eval!(konst::string::chars(str), take_while(|char| *char == '0'), count()) as u8;
-
-        let remaining_number = konst::try_!(konst::result::map_err!(
-            u64::from_str_radix(str, 10),
-            ParsePaddedNumberError::InvalidNumber
-        ));
+        let (leading_zeros, remaining_number) = konst::try_!(crate::parse::parse(A, B, str));
 
         Ok(Self { leading_zeros, number: remaining_number })
     }
