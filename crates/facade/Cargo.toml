@@ -1,11 +1,11 @@
 [package]
 name = "padded-number"
+readme = "README.md"
 
 authors.workspace = true
 edition.workspace = true
 exclude.workspace = true
 license.workspace = true
-readme.workspace = true
 repository.workspace = true
 version.workspace = true
 
