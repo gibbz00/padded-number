@@ -18,10 +18,10 @@ This project makes use of [`pre-commit`](https://pre-commit.com/) hooks. A `pre-
 
 ### Running tests
 
-Pretty standard procedure apart from noting that some tests may be behind feature flags, so:
+Pretty standard procedure:
 
 ```sh
-cargo test --all-features
+cargo test
 ```
 
 ### Generating and opening documentation
