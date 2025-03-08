@@ -1,0 +1,16 @@
+[package]
+name = "padded-number"
+
+authors.workspace = true
+edition.workspace = true
+exclude.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+padded-number-internal.workspace = true
+
+[lints]
+workspace = true
