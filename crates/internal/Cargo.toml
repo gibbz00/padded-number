@@ -1,0 +1,30 @@
+[package]
+name = "padded-number-internal"
+
+authors.workspace = true
+edition.workspace = true
+exclude.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[features]
+serde = ["dep:serde"]
+
+[dependencies]
+displaydoc.workspace = true
+konst = { workspace = true, features = ["cmp", "iter"] }
+thiserror.workspace = true
+
+# feature: serde
+serde = { workspace = true, features = ["derive"], optional = true }
+
+[dev-dependencies]
+
+# feature: serde
+padded-number-internal = { path = ".", features = ["serde"] }
+serde_json.workspace = true
+
+[lints]
+workspace = true
