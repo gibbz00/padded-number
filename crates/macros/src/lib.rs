@@ -19,6 +19,15 @@ pub fn bound_padded_number(token_stream: TokenStream) -> TokenStream {
     padded_number_impl(args).into()
 }
 
+#[proc_macro]
+pub fn padded_number(token_stream: TokenStream) -> TokenStream {
+    let number_literal = parse_macro_input!(token_stream as LitStr);
+
+    let args = Args { min: 1, max: u8::MAX, number_literal };
+
+    padded_number_impl(args).into()
+}
+
 struct Args {
     min: u8,
     max: u8,

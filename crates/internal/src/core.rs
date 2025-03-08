@@ -2,7 +2,7 @@ use crate::*;
 
 /// Checkout the crate-level documentation for an introduction
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
-pub struct PaddedNumber<const A: u8, const B: u8> {
+pub struct PaddedNumber<const A: u8 = 1, const B: u8 = { u8::MAX }> {
     pub(crate) leading_zeros: u8,
     pub(crate) number: u64,
 }
