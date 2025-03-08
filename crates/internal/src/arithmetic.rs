@@ -130,7 +130,7 @@ impl<const A: u8, const B: u8> Add<u64> for PaddedNumber<A, B> {
     type Output = Self;
 
     fn add(self, rhs: u64) -> Self::Output {
-        Self::saturating_add(self, rhs)
+        Self::wrapping_add(self, rhs)
     }
 }
 
@@ -138,7 +138,7 @@ impl<const A: u8, const B: u8> Sub<u64> for PaddedNumber<A, B> {
     type Output = Self;
 
     fn sub(self, rhs: u64) -> Self::Output {
-        Self::saturating_sub(self, rhs)
+        Self::wrapping_sub(self, rhs)
     }
 }
 
