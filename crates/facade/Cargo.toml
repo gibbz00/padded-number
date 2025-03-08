@@ -11,6 +11,7 @@ version.workspace = true
 
 [features]
 macros = ["dep:padded-number-macros"]
+serde = ["padded-number-internal/serde"]
 
 [dependencies]
 padded-number-internal.workspace = true
