@@ -1,6 +1,17 @@
 use crate::*;
 
 /// Checkout the crate-level documentation for an introduction
+///
+/// `PaddedNumber` uses const generic parameters for setting lower (inclusive)
+/// and upper (inclusive) length bounds. These parameters are by default set to
+/// 1 and 255 (u8::MAX) respectively.
+///
+/// - `MIN < MAX` allows for variable digit length.
+/// - `MIN == MAX` requires the digit to exactly of length MIN/MAX.
+/// - `MIN == 0` results in empty values ("") being allowed as valid numbers.
+/// - `MIN > MAX, where MIN, MAX > 0` is technically declarable, but any
+///   attempts at constructing such a padded number will result in a runtime
+///   error.
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub struct PaddedNumber<const A: u8 = 1, const B: u8 = { u8::MAX }> {
     pub(crate) leading_zeros: u8,
