@@ -3,6 +3,8 @@
 [![ci_status](https://img.shields.io/github/actions/workflow/status/gibbz00/padded-number/ci.yaml?style=for-the-badge)](https://github.com/gibbz00/padded-number/actions/workflows/ci.yaml)
 [![codecov](https://img.shields.io/codecov/c/gh/gibbz00/padded-number?token=8uQpdikxPA&style=for-the-badge)](https://codecov.io/gh/gibbz00/padded-number)
 [![license](https://img.shields.io/github/license/gibbz00/padded-number.svg?style=for-the-badge)](https://github.com/gibbz00/padded-number/blob/main/LICENSE.md)
+[![crates_io](https://img.shields.io/crates/v/padded-number.svg?style=for-the-badge)](https://crates.io/crates/padded-number)
+[![docs_rs](https://img.shields.io/docsrs/padded-number/latest.svg?style=for-the-badge)](https://docs.rs/padded-number)
 
 Used when "0" and "00" should be considered as distinct values. Encapsulated
 in a `PaddedNumber` type with, length bounds, ordering, arithmetic, and const
