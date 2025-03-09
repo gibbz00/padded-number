@@ -5,11 +5,12 @@
 [![license](https://img.shields.io/github/license/gibbz00/padded-number.svg?style=for-the-badge)](https://github.com/gibbz00/padded-number/blob/main/LICENSE.md)
 
 Used when "0" and "00" should be considered as distinct values. Encapsulated
-in a `PaddedNumber` type with, length bounds, ordering, and arithmetic features
-included.
+in a `PaddedNumber` type with, length bounds, ordering, arithmetic, and const
+context features included.
 
 ```rust
 use padded_number::padded_number;
+
 // macros creates a valid `PaddedNumber` at compile time
 assert_eq!(padded_number!("001"), padded_number!("001"));
 assert_ne!(padded_number!("0"), padded_number!("00"));
@@ -46,7 +47,7 @@ assert!(u < v);
 
 ## Addition and subtraction with u64 as right-hand-side
 
-Zeros being their own step makes padded number arithmetic unintuitive at first.
+Zeros being their own step is required to make padded number arithmetic consistent.
 
 ```rust
 use padded_number::padded_number;

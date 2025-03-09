@@ -1,17 +1,18 @@
 use crate::*;
 
-/// Checkout the crate-level documentation for an introduction
+/// Newtype encapsulating the padded number invariants
+///
+/// Check out the crate-level documentation for an introduction.
 ///
 /// `PaddedNumber` uses const generic parameters for setting lower (inclusive)
 /// and upper (inclusive) length bounds. These parameters are by default set to
 /// 1 and 255 (u8::MAX) respectively.
 ///
 /// - `MIN < MAX` allows for variable digit length.
-/// - `MIN == MAX` requires the digit to exactly of length MIN/MAX.
+/// - `MIN == MAX` requires the digit to be exactly of length MIN/MAX.
 /// - `MIN == 0` results in empty values ("") being allowed as valid numbers.
 /// - `MIN > MAX, where MIN, MAX > 0` is technically declarable, but any
-///   attempts at constructing such a padded number will result in a runtime
-///   error.
+///   attempts at constructing such a padded number will fail.
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub struct PaddedNumber<const A: u8 = 1, const B: u8 = { u8::MAX }> {
     pub(crate) leading_zeros: u8,
@@ -24,7 +25,7 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
         Self { leading_zeros, number }
     }
 
-    /// Create a new [`PaddedNumber`] in a const context.
+    /// Create a new [`PaddedNumber`]
     pub const fn try_new(str: &str) -> Result<Self, ParsePaddedNumberError> {
         let (leading_zeros, remaining_number) = konst::try_!(padded_number_internal::parse(A, B, str));
 
@@ -32,6 +33,12 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     }
 
     /// Calculate the length of the padded number, including any leading zeros
+    ///
+    /// ```rust
+    /// # use padded_number::*;
+    /// assert_eq!(2, padded_number!("01").len());
+    /// assert_eq!(3, padded_number!("123").len());
+    /// ```
     pub const fn len(&self) -> u8 {
         if self.number == 0 {
             self.leading_zeros
@@ -48,7 +55,12 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
         }
     }
 
-    /// Check if the number if empty, e.g. when it is ''.
+    /// Check if the number if empty, e.g. if and only if it is `""`.
+    /// ```rust
+    /// # use padded_number::*;
+    /// assert!(bound_padded_number!(0, 1, "").is_empty());
+    /// assert!(!padded_number!("01").is_empty());
+    /// ```
     pub const fn is_empty(&self) -> bool {
         self.leading_zeros == 0 && self.number == 0
     }

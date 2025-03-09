@@ -5,11 +5,11 @@ use crate::*;
 impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     /// Wrapping addition with u64 as right-hand side
     ///
-    /// Used internally for the `impl Add<u64> for PaddedNumber` implementation.
+    /// Used within the `impl Add<u64> for PaddedNumber` implementation.
     ///
     /// ```rust
     /// # use padded_number_macros::*;
-    /// assert_eq!(padded_number!("0").wrapping_add(1), padded_number!("0") + 1);
+    /// assert_eq!(padded_number!("0") + 1, padded_number!("0").wrapping_add(1));
     ///
     /// // Within bounds
     /// assert_eq!(padded_number!("9") + 1, padded_number!("00"));
@@ -53,11 +53,11 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
 
     /// Wrapping subtraction with u64 as right-hand side
     ///
-    /// Used internally for the `impl Sub<u64> for PaddedNumber` implementation.
+    /// Used within the `impl Sub<u64> for PaddedNumber` implementation.
     ///
     /// ```rust
     /// # use padded_number_macros::*;
-    /// assert_eq!(padded_number!("9").wrapping_sub(1), padded_number!("9") - 1);
+    /// assert_eq!(padded_number!("9") - 1, padded_number!("9").wrapping_sub(1));
     ///
     /// // Within bounds
     /// assert_eq!(padded_number!("9") + 1, padded_number!("00"));
