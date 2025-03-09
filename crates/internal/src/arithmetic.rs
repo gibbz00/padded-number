@@ -3,22 +3,23 @@ use std::ops::{Add, Sub};
 use crate::*;
 
 impl<const A: u8, const B: u8> PaddedNumber<A, B> {
-    const fn max_number_for_current_length(&self) -> PaddedNumber<A, B> {
-        PaddedNumber { leading_zeros: 0, number: Self::max_number_for_length_impl(self.len()) }
-    }
-
-    const fn max_number_for_max_length() -> PaddedNumber<A, B> {
-        PaddedNumber { leading_zeros: 0, number: Self::max_number_for_length_impl(B) }
-    }
-
-    const fn min_number_for_min_length() -> Self {
-        Self { leading_zeros: A, number: 0 }
-    }
-
-    const fn max_number_for_length_impl(length: u8) -> u64 {
-        (10_u64.pow(length as u32)) - 1
-    }
-
+    /// Wrapping addition with u64 as right-hand side
+    ///
+    /// Used internally for the `impl Add<u64> for PaddedNumber` implementation.
+    ///
+    /// ```ignore,rust
+    /// assert_eq!(padded_number!("0").wrapping_add(1), padded_number!("0") + 1);
+    ///
+    /// // Within bounds
+    /// assert_eq!(padded_number!("9") + 1, padded_number!("00"));
+    /// assert_eq!(padded_number!("80") + 11, padded_number!("91"));
+    ///
+    /// // Wrapped
+    /// assert_eq!(
+    ///     bound_padded_number!(2, 3, "999") + 2,
+    ///     bound_padded_number!("01")
+    /// );
+    /// ```
     pub fn wrapping_add(self, rhs: u64) -> Self {
         self.add_impl(rhs, |new_number, max_for_length_number| {
             let start = Self::min_number_for_min_length();
@@ -31,11 +32,58 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
         })
     }
 
+    /// Saturating addition with u64 as right-hand side
+    ///
+    /// ```ignore,rust
+    /// assert_eq!(
+    ///     bound_padded_number!(2, 3, "990").saturating_add(1000),
+    ///     bound_padded_number!("999") // saturated
+    /// );
+    /// ```
+    ///
+    /// Addition within bounds behaves the same as in [`Self::wrapping_add`].
     pub fn saturating_add(self, rhs: u64) -> Self {
         self.add_impl(rhs, |_new_number, max_for_length_number| Self {
             leading_zeros: 0,
             number: max_for_length_number,
         })
+    }
+
+    /// Wrapping subtraction with u64 as right-hand side
+    ///
+    /// Used internally for the `impl Sub<u64> for PaddedNumber` implementation.
+    ///
+    /// ```ignore,rust
+    /// assert_eq!(padded_number!("9").wrapping_sub(1), padded_number!("9") - 1);
+    ///
+    /// // Within bounds
+    /// assert_eq!(padded_number!("9") + 1, padded_number!("00"));
+    /// assert_eq!(padded_number!("80") + 11, padded_number!("91"));
+    ///
+    /// // Wrapped
+    /// assert_eq!(
+    ///     bound_padded_number!(2, 3, "999") + 2,
+    ///     bound_padded_number!("01")
+    /// );
+    /// ```
+    pub fn wrapping_sub(self, rhs: u64) -> Self {
+        self.sub_impl(rhs, |remaining_difference| {
+            Self::max_number_for_max_length().wrapping_sub(remaining_difference)
+        })
+    }
+
+    /// Saturating subtraction with u64 as right-hand side
+    ///
+    /// ```ignore,rust
+    /// assert_eq!(
+    ///     bound_padded_number!(1, 2, "99").saturating_sub(1000),
+    ///     bound_padded_number!("0") // saturated
+    /// );
+    /// ```
+    ///
+    /// Subtraction within bounds behaves the same as in [`Self::wrapping_sub`].
+    pub fn saturating_sub(self, rhs: u64) -> Self {
+        self.sub_impl(rhs, |_| Self::min_number_for_min_length())
     }
 
     // can't yet be const due to Rust currently missing const closures
@@ -78,16 +126,6 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
         }
     }
 
-    pub fn wrapping_sub(self, rhs: u64) -> Self {
-        self.sub_impl(rhs, |remaining_difference| {
-            Self::max_number_for_max_length().wrapping_sub(remaining_difference)
-        })
-    }
-
-    pub fn saturating_sub(self, rhs: u64) -> Self {
-        self.sub_impl(rhs, |_| Self::min_number_for_min_length())
-    }
-
     fn sub_impl(self, rhs: u64, overflow_fn: impl FnOnce(u64) -> Self) -> Self {
         if rhs == 0 || self.is_empty() {
             return self;
@@ -123,6 +161,22 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
                 }
             }
         }
+    }
+
+    const fn max_number_for_current_length(&self) -> PaddedNumber<A, B> {
+        PaddedNumber { leading_zeros: 0, number: Self::max_number_for_length_impl(self.len()) }
+    }
+
+    const fn max_number_for_max_length() -> PaddedNumber<A, B> {
+        PaddedNumber { leading_zeros: 0, number: Self::max_number_for_length_impl(B) }
+    }
+
+    const fn min_number_for_min_length() -> Self {
+        Self { leading_zeros: A, number: 0 }
+    }
+
+    const fn max_number_for_length_impl(length: u8) -> u64 {
+        (10_u64.pow(length as u32)) - 1
     }
 }
 

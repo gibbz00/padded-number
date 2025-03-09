@@ -1,5 +1,4 @@
-// TEMP: remove before first publish
-#![allow(missing_docs)]
+//! # `padded-number-internal` - Internal crate whose items are then re-exported in `padded-number`
 
 mod core;
 pub use core::PaddedNumber;

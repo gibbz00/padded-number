@@ -1,6 +1,3 @@
-// TEMP: until first publish
-#![allow(missing_docs)]
-
 //! # `padded-number-macros` - Macros for compile time `padded-number` constructs
 
 use proc_macro::TokenStream;
@@ -13,18 +10,42 @@ use syn::{
     token::Comma,
 };
 
-#[proc_macro]
-pub fn bound_padded_number(token_stream: TokenStream) -> TokenStream {
-    let args = parse_macro_input!(token_stream as Args);
-    padded_number_impl(args).into()
-}
-
+/// Construct a `PaddedNumber` at compile time
+///
+/// May be seend as shorthand for writing `PaddedNumber::<1, {
+/// u8::MAX}>::try_new("001").unwrap()`, but compile time error reporting.
+///
+/// Errors if provided string is not within the provided length bounds, or it it
+/// constrains anything but ASCII digits.
+///
+/// Works in const context:
+///
+/// ```no_compile
+/// const PADDED_NUMBER: PaddedNumber = padded_number!("001");
+/// ```
 #[proc_macro]
 pub fn padded_number(token_stream: TokenStream) -> TokenStream {
     let number_literal = parse_macro_input!(token_stream as LitStr);
 
     let args = Args { min: 1, max: u8::MAX, number_literal };
 
+    padded_number_impl(args).into()
+}
+
+/// Construct a bound `PaddedNumber` at compile time, similar to
+/// `padded_number!`
+///
+/// First and second parameter denote min and max length bounds respectively,
+/// both inclusive.
+///
+/// Works in const context:
+///
+/// ```no_compile
+/// const PADDED_NUMBER: PaddedNumber<1, 3> = bound_padded_number!(1, 3, "001");
+/// ```
+#[proc_macro]
+pub fn bound_padded_number(token_stream: TokenStream) -> TokenStream {
+    let args = parse_macro_input!(token_stream as Args);
     padded_number_impl(args).into()
 }
 
