@@ -11,14 +11,22 @@ version.workspace = true
 
 [features]
 macros = ["dep:padded-number-macros"]
-serde = ["padded-number-internal/serde"]
+serde = ["dep:serde"]
 
 [dependencies]
 padded-number-internal.workspace = true
 padded-number-macros = { workspace = true, optional = true }
 
+konst.workspace = true
+
+# feature: serde
+serde = { workspace = true, features = ["derive"], optional = true }
+
 [dev-dependencies]
-padded-number = { path = ".", features = ["macros"] }
+padded-number = { path = ".", features = ["macros", "serde"] }
+
+# feature: serde
+serde_json.workspace = true
 
 [lints]
 workspace = true

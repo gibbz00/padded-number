@@ -7,7 +7,8 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     ///
     /// Used internally for the `impl Add<u64> for PaddedNumber` implementation.
     ///
-    /// ```ignore,rust
+    /// ```rust
+    /// # use padded_number_macros::*;
     /// assert_eq!(padded_number!("0").wrapping_add(1), padded_number!("0") + 1);
     ///
     /// // Within bounds
@@ -17,7 +18,7 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     /// // Wrapped
     /// assert_eq!(
     ///     bound_padded_number!(2, 3, "999") + 2,
-    ///     bound_padded_number!("01")
+    ///     bound_padded_number!(2, 3, "01")
     /// );
     /// ```
     pub fn wrapping_add(self, rhs: u64) -> Self {
@@ -34,10 +35,11 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
 
     /// Saturating addition with u64 as right-hand side
     ///
-    /// ```ignore,rust
+    /// ```rust
+    /// # use padded_number_macros::*;
     /// assert_eq!(
     ///     bound_padded_number!(2, 3, "990").saturating_add(1000),
-    ///     bound_padded_number!("999") // saturated
+    ///     bound_padded_number!(2, 3, "999") // saturated
     /// );
     /// ```
     ///
@@ -53,7 +55,8 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     ///
     /// Used internally for the `impl Sub<u64> for PaddedNumber` implementation.
     ///
-    /// ```ignore,rust
+    /// ```rust
+    /// # use padded_number_macros::*;
     /// assert_eq!(padded_number!("9").wrapping_sub(1), padded_number!("9") - 1);
     ///
     /// // Within bounds
@@ -63,7 +66,7 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     /// // Wrapped
     /// assert_eq!(
     ///     bound_padded_number!(2, 3, "999") + 2,
-    ///     bound_padded_number!("01")
+    ///     bound_padded_number!(2, 3, "01")
     /// );
     /// ```
     pub fn wrapping_sub(self, rhs: u64) -> Self {
@@ -74,10 +77,11 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
 
     /// Saturating subtraction with u64 as right-hand side
     ///
-    /// ```ignore,rust
+    /// ```rust
+    /// # use padded_number_macros::*;
     /// assert_eq!(
     ///     bound_padded_number!(1, 2, "99").saturating_sub(1000),
-    ///     bound_padded_number!("0") // saturated
+    ///     bound_padded_number!(1, 2, "0") // saturated
     /// );
     /// ```
     ///

@@ -26,7 +26,7 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
 
     /// Create a new [`PaddedNumber`] in a const context.
     pub const fn try_new(str: &str) -> Result<Self, ParsePaddedNumberError> {
-        let (leading_zeros, remaining_number) = konst::try_!(crate::parse::parse(A, B, str));
+        let (leading_zeros, remaining_number) = konst::try_!(padded_number_internal::parse::parse(A, B, str));
 
         Ok(Self { leading_zeros, number: remaining_number })
     }

@@ -1,6 +1,4 @@
-/// Error originating from [`PaddedNumber::try_new`]
-///
-/// [`PaddedNumber::try_new`]: crate::PaddedNumber::try_new
+/// Error originating from `PaddedNumber::try_new`
 #[derive(Debug, PartialEq, displaydoc::Display, thiserror::Error)]
 pub enum ParsePaddedNumberError {
     /// "too few digits provided, expected at least '{0}', received '{1}'"
