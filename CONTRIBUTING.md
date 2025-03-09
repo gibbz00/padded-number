@@ -40,6 +40,6 @@ cargo doc --no-deps --all-features --open
 # <release> should match [0-9]+.[0-9]+.[0-9]+
 git commit -am "chore: release <release>"
 git tag "<release>"
-git cliff -o CHANGELOG.md
+git cliff 0.1.0.. -o CHANGELOG.md --tag X.X.X
 git push && git push --tags
 ```

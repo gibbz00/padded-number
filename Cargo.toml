@@ -13,8 +13,8 @@ version = "0.1.0"
 
 [workspace.dependencies]
 # Workspace
-padded-number-internal = { path = "crates/internal" }
-padded-number-macros = { path = "crates/macros" }
+padded-number-internal = { version = "0", path = "crates/internal" }
+padded-number-macros = { version = "0", path = "crates/macros" }
 
 # External
 displaydoc = "0.2.5"
