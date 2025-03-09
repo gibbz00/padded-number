@@ -71,7 +71,7 @@ fn padded_number_impl(args: Args) -> TokenStream2 {
     let Args { min, max, number_literal } = args;
     let number_str = number_literal.value();
 
-    match padded_number_internal::parse::parse(min, max, &number_str) {
+    match padded_number_internal::parse(min, max, &number_str) {
         Ok((leading_zeros, remaining_number)) => {
             quote! {
                 // SAFETY: invariants verified by proc macro
