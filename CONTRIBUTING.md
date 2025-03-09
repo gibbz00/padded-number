@@ -38,8 +38,8 @@ cargo doc --no-deps --all-features --open
 
 ```sh
 # <release> should match [0-9]+.[0-9]+.[0-9]+
+git cliff 0.1.0.. -o CHANGELOG.md --tag X.X.X
 git commit -am "chore: release <release>"
 git tag "<release>"
-git cliff 0.1.0.. -o CHANGELOG.md --tag X.X.X
 git push && git push --tags
 ```
