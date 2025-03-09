@@ -1,6 +1,11 @@
 [package]
 name = "padded-number"
+
+description = "Work with numbers containing significant leading zeros"
 readme = "README.md"
+
+categories = ["data-structures", "mathematics"]
+keywords = ["numerics", "padding"]
 
 authors.workspace = true
 edition.workspace = true
