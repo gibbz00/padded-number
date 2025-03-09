@@ -1,6 +1,8 @@
 [package]
 name = "padded-number-macros"
 
+description = "Procedual macros to be used in the padded-number crate"
+
 authors.workspace = true
 edition.workspace = true
 exclude.workspace = true

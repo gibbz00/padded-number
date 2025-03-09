@@ -1,6 +1,8 @@
 [package]
 name = "padded-number-internal"
 
+description = "Internal parse functions for the padded-number crate"
+
 authors.workspace = true
 edition.workspace = true
 exclude.workspace = true
