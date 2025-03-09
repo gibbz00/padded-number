@@ -1,3 +1,7 @@
+// Used for the `unstable-nightly` features
+#![allow(incomplete_features)]
+#![feature(generic_const_exprs)]
+//
 #![doc = include_str!(concat!("../", env!("CARGO_PKG_README")))]
 
 #[cfg(feature = "macros")]
@@ -17,6 +21,11 @@ mod ordering;
 mod serde;
 #[cfg(test)]
 mod serde_tests;
+
+#[cfg(feature = "unstable-nightly")]
+mod section;
+#[cfg(test)]
+mod section_tests;
 
 // TEMP:
 #[cfg(test)]

@@ -2,6 +2,9 @@ use crate::*;
 
 /// Newtype encapsulating the padded number invariants
 ///
+/// Consists only of an `u8` and an `u64` which keep track of the
+/// leading zeros count and the remaining number value respectively.
+///
 /// Check out the crate-level documentation for an introduction.
 ///
 /// `PaddedNumber` uses const generic parameters for setting lower (inclusive)
@@ -40,19 +43,26 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     /// assert_eq!(3, padded_number!("123").len());
     /// ```
     pub const fn len(&self) -> u8 {
-        if self.number == 0 {
-            self.leading_zeros
-        } else {
-            let mut number_length = 1;
-            let mut remaining_number = self.number;
+        self.leading_zeros + self.number_len()
+    }
 
-            while remaining_number >= 10 {
-                number_length += 1;
-                remaining_number /= 10;
-            }
+    /// Length of number, excluding leading zeros
+    pub(crate) const fn number_len(&self) -> u8 {
+        let number = self.number;
 
-            self.leading_zeros + number_length
+        if number == 0 {
+            return 0;
         }
+
+        let mut number_length = 1;
+        let mut remaining_number = number;
+
+        while remaining_number >= 10 {
+            number_length += 1;
+            remaining_number /= 10;
+        }
+
+        number_length
     }
 
     /// Check if the number if empty, e.g. if and only if it is `""`.

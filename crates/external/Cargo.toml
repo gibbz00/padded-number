@@ -17,6 +17,7 @@ version.workspace = true
 [features]
 macros = ["dep:padded-number-macros"]
 serde = ["dep:serde"]
+unstable-nightly = []
 
 [dependencies]
 padded-number-internal.workspace = true
@@ -28,7 +29,7 @@ konst.workspace = true
 serde = { workspace = true, features = ["derive"], optional = true }
 
 [dev-dependencies]
-padded-number = { path = ".", features = ["macros", "serde"] }
+padded-number = { path = ".", features = ["macros", "serde", "unstable-nightly"] }
 
 # feature: serde
 serde_json.workspace = true

@@ -6,9 +6,9 @@
 [![crates_io](https://img.shields.io/crates/v/padded-number.svg?style=for-the-badge)](https://crates.io/crates/padded-number)
 [![docs_rs](https://img.shields.io/docsrs/padded-number/latest.svg?style=for-the-badge)](https://docs.rs/padded-number)
 
-Used when "0" and "00" should be considered as distinct values. Encapsulated
-in a `PaddedNumber` type with, length bounds, ordering, arithmetic, and const
-context features included.
+Used when "0" and "00" should be considered as distinct values. Encapsulated in
+an efficient `PaddedNumber` type with, length bounds, ordering, and arithmetic
+features included.
 
 ```rust
 use padded_number::padded_number;
@@ -70,4 +70,6 @@ assert_eq!(
 All are disabled by default.
 
 - `macros` - Enables the `padded_number!` and `bound_padded_number!` macros.
-- `serde` - Enabled serde support for `PaddedNumber`. Serialization is done to and from a plain string.
+- `serde` - Enables serde support for `PaddedNumber`. Serialization is done to and from a plain string.
+- `unstable-nightly` - Enables the `PaddedNumber::section` method which in turn
+  relies on the unstable `generic_const_exprs` feature.
