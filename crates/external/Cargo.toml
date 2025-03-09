@@ -36,3 +36,8 @@ serde_json.workspace = true
 
 [lints]
 workspace = true
+
+# TEMP: https://github.com/rust-lang/rust/issues/43781
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
