@@ -61,3 +61,10 @@ assert_eq!(
   padded_number!("99")
 );
 ```
+
+## Feature flags
+
+All are disabled by default.
+
+- `macros` - Enables the `padded_number!` and `bound_padded_number!` macros.
+- `serde` - Enabled serde support for `PaddedNumber`. Serialization is done to and from a plain string.
