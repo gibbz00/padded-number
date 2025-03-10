@@ -57,7 +57,7 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
         Some(self.section_impl())
     }
 
-    /// Get a section from the minimum length of a paddde number
+    /// Get a section from the minimum length of a padded number
     ///
     /// Unlike [`PaddedNumber::section`], this does not need to return an
     /// option. Type system ensures that END_INDEX <= MIN_LENGTH.
