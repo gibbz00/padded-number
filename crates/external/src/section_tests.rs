@@ -62,6 +62,16 @@ fn empty_section() {
     assert_section::<1, 3, 0, 0>("000", "");
 }
 
+#[test]
+fn expected_section() {
+    let padded_number = PaddedNumber::<3, 5>::try_new("00123").unwrap();
+
+    let actual_section = padded_number.expected_section::<0, 3>();
+    let expected_section = PaddedNumber::try_new("001").unwrap();
+
+    assert_eq!(expected_section, actual_section)
+}
+
 fn assert_section<const A: u8, const B: u8, const C: u8, const D: u8>(number_str: &str, expected_section: &str)
 where
     [(); { D - C } as usize]:,
