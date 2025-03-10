@@ -3,27 +3,25 @@
 
 use crate::*;
 
+const NUMBER_TO_SECTION: u64 = 123456;
+
 #[test]
 fn number_subsection_right_shifts() {
-    let padded_number = PaddedNumber::try_new("123456").unwrap();
-
-    assert_number_subsection(padded_number, 0, 1, 1);
-    assert_number_subsection(padded_number, 0, 3, 123);
-    assert_number_subsection(padded_number, 0, 6, 123456);
+    assert_number_subsection(0, 1, 1);
+    assert_number_subsection(0, 3, 123);
+    assert_number_subsection(0, 6, 123456);
 }
 
 #[test]
 fn number_subsection_combined_shifts() {
-    let padded_number = PaddedNumber::try_new("123456").unwrap();
-
-    assert_number_subsection(padded_number, 0, 0, 0);
-    assert_number_subsection(padded_number, 5, 6, 6);
-    assert_number_subsection(padded_number, 2, 4, 34);
-    assert_number_subsection(padded_number, 1, 6, 23456);
+    assert_number_subsection(0, 0, 0);
+    assert_number_subsection(5, 6, 6);
+    assert_number_subsection(2, 4, 34);
+    assert_number_subsection(1, 6, 23456);
 }
 
-fn assert_number_subsection(padded_number: PaddedNumber, start: u8, end: u8, expected: u64) {
-    let actual = padded_number.number_subsection(start, end);
+fn assert_number_subsection(start: u8, end: u8, expected: u64) {
+    let actual = crate::section::number_subsection(NUMBER_TO_SECTION, start, end);
     assert_eq!(expected, actual);
 }
 

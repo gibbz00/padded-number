@@ -43,26 +43,7 @@ impl<const A: u8, const B: u8> PaddedNumber<A, B> {
     /// assert_eq!(3, padded_number!("123").len());
     /// ```
     pub const fn len(&self) -> u8 {
-        self.leading_zeros + self.number_len()
-    }
-
-    /// Length of number, excluding leading zeros
-    pub(crate) const fn number_len(&self) -> u8 {
-        let number = self.number;
-
-        if number == 0 {
-            return 0;
-        }
-
-        let mut number_length = 1;
-        let mut remaining_number = number;
-
-        while remaining_number >= 10 {
-            number_length += 1;
-            remaining_number /= 10;
-        }
-
-        number_length
+        self.leading_zeros + utils::number_len(self.number)
     }
 
     /// Check if the number if empty, e.g. if and only if it is `""`.

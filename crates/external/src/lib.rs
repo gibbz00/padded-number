@@ -17,6 +17,8 @@ mod display;
 mod from_str;
 mod ordering;
 
+mod utils;
+
 #[cfg(feature = "serde")]
 mod serde;
 #[cfg(test)]
