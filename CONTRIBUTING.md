@@ -37,9 +37,10 @@ cargo doc --no-deps --all-features --open
 3. Finally:
 
 ```sh
-# <release> should match [0-9]+.[0-9]+.[0-9]+
-git cliff 0.1.0.. -o CHANGELOG.md --tag X.X.X
-git commit -am "chore: release <release>"
-git tag "<release>"
+# $_release should match [0-9]+.[0-9]+.[0-9]+
+_release='X.X.X'
+git cliff 0.1.0.. -o CHANGELOG.md --tag $_release
+git commit -am "chore: prepare $_release release"
+git tag $_release
 git push && git push --tags
 ```
