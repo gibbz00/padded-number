@@ -1,7 +1,7 @@
 use crate::*;
 
 impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LENGTH> {
-    /// Get a section of a padded number
+    /// Get a exact section of a padded number, checking for overflows
     ///
     /// First generic parameter is the start index, inclusive. Second parameter
     /// denotes the end index, exclusive. Remaining bound checks are enforced by
@@ -17,12 +17,12 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
     ///
     /// # use padded_number_macros::*;
     /// let section = padded_number!("00123")
-    ///     .section::<2, 5>()
+    ///     .checked_section::<2, 5>()
     ///     .expect("section should not have overflowed");
     ///
     /// assert_eq!(section, bound_padded_number!(3, 3, "123"));
     ///
-    /// let section = bound_padded_number!(1, 3, "0").section::<1, 3>();
+    /// let section = bound_padded_number!(1, 3, "0").checked_section::<1, 3>();
     /// // overflowed, missing two digits after "0"
     /// assert!(section.is_none());
     /// ```
@@ -32,17 +32,17 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
     ///
     /// # use padded_number_macros::*;
     /// let section = bound_padded_number!(3, 3, "123");
-    /// section.section::<0, 4>(); // <-- END_INDEX '4' > MAX_LENGTH '3'
+    /// section.checked_section::<0, 4>(); // <-- END_INDEX '4' > MAX_LENGTH '3'
     /// ```
     ///
     /// ```compile_fail
     /// #![feature(generic_const_exprs)]
     ///
     /// # use padded_number_macros::*;
-    /// let section = bound_padded_number!(3, 3, "123");
-    /// section.section::<2, 1>(); // <-- END_INDEX '1' < START_INDEX '2'
+    /// let padded_number = bound_padded_number!(3, 3, "123");
+    /// section.checked_section::<2, 1>(); // <-- END_INDEX '1' < START_INDEX '2'
     /// ```
-    pub fn section<const START_INDEX: u8, const END_INDEX: u8>(
+    pub fn checked_section<const START_INDEX: u8, const END_INDEX: u8>(
         &self,
     ) -> Option<PaddedNumber<{ END_INDEX - START_INDEX }, { END_INDEX - START_INDEX }>>
     where
@@ -59,8 +59,8 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
 
     /// Get a section from the minimum length of a padded number
     ///
-    /// Unlike [`PaddedNumber::section`], this does not need to return an
-    /// option. Type system ensures that END_INDEX <= MIN_LENGTH.
+    /// Unlike [`PaddedNumber::checked_section`], this does not need to return
+    /// an option. Type system ensures that END_INDEX <= MIN_LENGTH.
     ///
     /// # Examples
     ///
