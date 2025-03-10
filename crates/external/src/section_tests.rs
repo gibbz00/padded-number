@@ -31,8 +31,8 @@ fn assert_number_subsection(padded_number: PaddedNumber, start: u8, end: u8, exp
 fn overflow_returns_none() {
     let padded_number = PaddedNumber::<1, 5>::try_new("123").unwrap();
 
-    assert!(padded_number.section::<1, 5>().is_none());
-    assert!(padded_number.section::<3, 5>().is_none());
+    assert!(padded_number.checked_section::<1, 5>().is_none());
+    assert!(padded_number.checked_section::<3, 5>().is_none());
 }
 
 #[test]
@@ -78,7 +78,7 @@ where
     [(); { B - D } as usize]:,
 {
     let padded_number = PaddedNumber::<A, B>::try_new(number_str).unwrap();
-    let actual_section = padded_number.section::<C, D>().unwrap();
+    let actual_section = padded_number.checked_section::<C, D>().unwrap();
     let expected_section = PaddedNumber::try_new(expected_section).unwrap();
     assert_eq!(expected_section, actual_section)
 }
