@@ -20,11 +20,27 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
     ///     .section::<2, 5>()
     ///     .expect("section should not have overflowed");
     ///
-    /// assert_eq!(section, bound_padded_number!(3, 3, "123"),);
+    /// assert_eq!(section, bound_padded_number!(3, 3, "123"));
     ///
     /// let section = bound_padded_number!(1, 3, "0").section::<1, 3>();
     /// // overflowed, missing two digits after "0"
     /// assert!(section.is_none());
+    /// ```
+    ///
+    /// ```compile_fail
+    /// #![feature(generic_const_exprs)]
+    ///
+    /// # use padded_number_macros::*;
+    /// let section = bound_padded_number!(3, 3, "123");
+    /// section.section::<0, 4>(); // <-- END_INDEX '4' > MAX_LENGTH '3'
+    /// ```
+    ///
+    /// ```compile_fail
+    /// #![feature(generic_const_exprs)]
+    ///
+    /// # use padded_number_macros::*;
+    /// let section = bound_padded_number!(3, 3, "123");
+    /// section.section::<2, 1>(); // <-- END_INDEX '1' < START_INDEX '2'
     /// ```
     pub fn section<const START_INDEX: u8, const END_INDEX: u8>(
         &self,
@@ -38,6 +54,55 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
             return None;
         }
 
+        Some(self.section_impl())
+    }
+
+    /// Get a section from the minimum length of a paddde number
+    ///
+    /// Unlike [`PaddedNumber::section`], this does not need to return an
+    /// option. Type system ensures that END_INDEX <= MIN_LENGTH.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// #![feature(generic_const_exprs)]
+    ///
+    /// # use padded_number_macros::*;
+    /// let section = bound_padded_number!(3, 5, "00123").expected_section::<0, 3>();
+    /// assert_eq!(section, bound_padded_number!(3, 3, "001"));
+    /// ```
+    ///
+    /// ```compile_fail
+    /// #![feature(generic_const_exprs)]
+    ///
+    /// # use padded_number_macros::*;
+    /// let section = bound_padded_number!(3, 5, "00123");
+    /// section.expected_section::<0, 4>(); // <-- END_INDEX '4' > MIN_LENGTH '3'
+    /// ```
+    pub fn expected_section<const START_INDEX: u8, const END_INDEX: u8>(
+        &self,
+    ) -> PaddedNumber<{ END_INDEX - START_INDEX }, { END_INDEX - START_INDEX }>
+    where
+        // Expresses "END_INDEX <= MIN_LENGTH" with current
+        // `generic_const_exprs` unstable feature capabilities
+        [(); { MIN_LENGTH - END_INDEX } as usize]:,
+        // Bound required to call `Self::section_impl`
+        [(); { MAX_LENGTH - END_INDEX } as usize]:,
+    {
+        // save to call since END_INDEX <= MIN_LENGTH
+        self.section_impl()
+    }
+
+    /// Assumes:
+    /// - END_INDEX <= self.len()
+    fn section_impl<const START_INDEX: u8, const END_INDEX: u8>(
+        &self,
+    ) -> PaddedNumber<{ END_INDEX - START_INDEX }, { END_INDEX - START_INDEX }>
+    where
+        // Expresses "END_INDEX <= MAX_LENGTH" with current
+        // `generic_const_exprs` unstable feature capabilities
+        [(); { MAX_LENGTH - END_INDEX } as usize]:,
+    {
         let leading_zeros = self.leading_zeros;
 
         let (new_leading_zeros, new_number) = match (
@@ -60,7 +125,7 @@ impl<const MIN_LENGTH: u8, const MAX_LENGTH: u8> PaddedNumber<MIN_LENGTH, MAX_LE
             }
         };
 
-        Some(PaddedNumber { leading_zeros: new_leading_zeros, number: new_number })
+        PaddedNumber { leading_zeros: new_leading_zeros, number: new_number }
     }
 
     /// Assumes:
