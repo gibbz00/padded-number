@@ -1,17 +1,17 @@
 use crate::*;
 
-/// Resize a `PaddedNumber` into a smaller one or one of the same size.
+/// Resize a `PaddedNumber` into a larger one or one of the same size.
 ///
-/// Type system ensures that the new minimum length >= previous minimum length,
-/// and that the new maximum length <= previous maximum length.
+/// Type system ensures that the new minimum length <= previous minimum length,
+/// and that the new maximum length >= previous maximum length.
 ///
 /// ```rust
 /// #![feature(generic_const_exprs)]
 ///
 /// # use padded_number_macros::*;
 /// # use crate::padded_number::ResizePaddedNumber;
-/// let a = bound_padded_number!(2, 3, "123");
-/// let b = bound_padded_number!(1, 5, "123").resize();
+/// let a = bound_padded_number!(2, 3, "123").resize();
+/// let b = bound_padded_number!(1, 5, "123");
 /// assert_eq!(a, b)
 /// ```
 ///
@@ -22,11 +22,11 @@ use crate::*;
 /// # #![feature(generic_const_exprs)]
 /// # use padded_number_macros::*;
 /// # use crate::padded_number::ResizePaddedNumber;
-/// let a = bound_padded_number!(1, 5, "123");
+/// let a = bound_padded_number!(2, 3, "12");
 /// foo_dyn(&a);
 /// foo_impl(a);
 ///
-/// let b = bound_padded_number!(2, 4, "123");
+/// let b = bound_padded_number!(3, 3, "123");
 /// foo_dyn(&b);
 /// foo_impl(b);
 ///
@@ -48,8 +48,8 @@ pub trait ResizePaddedNumber<const A_1: u8, const B_1: u8>: private::SealedResiz
 
 impl<const A_0: u8, const B_0: u8, const A_1: u8, const B_1: u8> ResizePaddedNumber<A_1, B_1> for PaddedNumber<A_0, B_0>
 where
-    [(); (A_1 - A_0) as usize]:,
-    [(); (B_0 - B_1) as usize]:,
+    [(); (A_0 - A_1) as usize]:,
+    [(); (B_1 - B_0) as usize]:,
 {
     fn resize(&self) -> PaddedNumber<A_1, B_1> {
         let PaddedNumber { leading_zeros, number } = *self;
