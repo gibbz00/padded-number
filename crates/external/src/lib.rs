@@ -27,6 +27,11 @@ mod section;
 #[cfg(test)]
 mod section_tests;
 
+#[cfg(feature = "unstable-nightly")]
+mod resize;
+#[cfg(feature = "unstable-nightly")]
+pub use resize::ResizePaddedNumber;
+
 // TEMP:
 #[cfg(test)]
 mod tests {

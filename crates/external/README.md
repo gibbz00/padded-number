@@ -13,7 +13,7 @@ features included.
 ```rust
 use padded_number::padded_number;
 
-// macros creates a valid `PaddedNumber` at compile time
+// macro creates a valid `PaddedNumber` at compile time
 assert_eq!(padded_number!("001"), padded_number!("001"));
 assert_ne!(padded_number!("0"), padded_number!("00"));
 ```
@@ -71,5 +71,5 @@ All are disabled by default.
 
 - `macros` - Enables the `padded_number!` and `bound_padded_number!` macros.
 - `serde` - Enables serde support for `PaddedNumber`. Serialization is done to and from a plain string.
-- `unstable-nightly` - Enables the `PaddedNumber::section` method which in turn
-  relies on the unstable `generic_const_exprs` feature.
+- `unstable-nightly` - Enables methods on `PaddedNumber` which in turn rely on
+  the unstable `generic_const_exprs` feature.
