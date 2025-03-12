@@ -71,5 +71,6 @@ All are disabled by default.
 
 - `macros` - Enables the `padded_number!` and `bound_padded_number!` macros.
 - `serde` - Enables serde support for `PaddedNumber`. Serialization is done to and from a plain string.
+- `phf` - Implements `phf::PhfHash` for `PaddedNumber`.
 - `unstable-nightly` - Enables methods on `PaddedNumber` which in turn rely on
   the unstable `generic_const_exprs` feature.
