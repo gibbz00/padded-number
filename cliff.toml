@@ -56,6 +56,9 @@ sort_commits = "oldest"
 tag_pattern = "[0-9]+.[0-9]+.[0-9]+"
 
 commit_parsers = [
+  # Hidden reverts
+  { sha = "566b85b37b13e429053c6b2c904ab923237f0bb2", skip = true },
+
   { message = "^docs", group = "Documented" },
   { message = "^feat", group = "Added" },
   { message = "^fix", group = "Fixed" },
