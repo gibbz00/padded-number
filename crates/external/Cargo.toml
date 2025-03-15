@@ -16,7 +16,6 @@ version.workspace = true
 
 [features]
 macros = ["dep:padded-number-macros"]
-phf = ["dep:phf"]
 serde = ["dep:serde"]
 unstable-nightly = []
 
@@ -28,9 +27,6 @@ konst.workspace = true
 
 # feature: serde
 serde = { workspace = true, features = ["derive"], optional = true }
-
-# feature: phf
-phf = { workspace = true, optional = true }
 
 [dev-dependencies]
 padded-number = { path = ".", features = ["macros", "serde", "unstable-nightly"] }

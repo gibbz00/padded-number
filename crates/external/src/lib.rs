@@ -24,9 +24,6 @@ mod serde;
 #[cfg(test)]
 mod serde_tests;
 
-#[cfg(feature = "phf")]
-mod phf;
-
 #[cfg(feature = "unstable-nightly")]
 mod section;
 #[cfg(test)]
