@@ -373,8 +373,7 @@ mod tests {
         let actual = operator(mock_from_str::<A, B>(lhs), rhs);
         assert_eq!(
             expected, actual,
-            "failed to operate on '{}' with {} to in the end expect '{}'",
-            lhs, rhs, expected
+            "failed to operate on '{lhs}' with {rhs} to in the end expect '{expected}'"
         );
     }
 }
